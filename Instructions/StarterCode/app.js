@@ -1,19 +1,5 @@
 // @TODO: YOUR CODE HERE!
-
-// // Load data from data.csv
-// d3.csv("data.csv").then(function(Data) {
-
-//     console.log(Data);
-  
-//     // log a list of names
-//     var names = Data.map(data => data.state);
-//     console.log("names", names);
-  
-
-
-
-// });
-
+// all work is coming from d3 week 3 the metal activity
 var svgWidth = 960;
 var svgHeight = 500;
 
@@ -39,8 +25,7 @@ var svg = d3
 var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-// // Load data from data.csv
-// d3.csv("data.csv").then(function(Data) {
+
 // Initial Params
 var chosenXAxis = "poverty";
 
@@ -55,7 +40,12 @@ function xScale(xdata, chosenXAxis) {
 
   return xLinearScale;
 
+
+
+
 }
+
+
 
 // function used for updating xAxis var upon click on axis label
 function renderAxes(newXScale, xAxis) {
@@ -75,7 +65,7 @@ function renderCircles(circlesGroup, newXScale, chosenXAxis) {
   circlesGroup.transition()
     .duration(1000)
     .attr("cx", d => newXScale(d[chosenXAxis]));
-
+    // .attr("cx", d => newXScale(d[y]));
   return circlesGroup;
 }
 
@@ -116,18 +106,18 @@ d3.csv("data.csv").then(function(Data, err) {
   if (err) throw err;
 
   // parse data
-  data.forEach(function(Data) {
-    data.poverty = +data.poverty;
-    data.healthcare = +data.healthcare;
+  Data.forEach(function(parseData) {
+    parseData.poverty = +parseData.poverty;
+    parseData.healthcare = +parseData.healthcare;
   //  data.num_albums = +data.num_albums;
   });
 
   // xLinearScale function above csv import
-  var xLinearScale = xScale(xdata, chosenXAxis);
+  var xLinearScale = xScale(Data, chosenXAxis);
 
   // Create y scale function
   var yLinearScale = d3.scaleLinear()
-    .domain([0, d3.max(xdata, d => d.healthcare)])
+    .domain([0, d3.max(Data, d => d.healthcare)])
     .range([height, 0]);
 
   // Create initial axis functions
@@ -146,7 +136,7 @@ d3.csv("data.csv").then(function(Data, err) {
 
   // append initial circles
   var circlesGroup = chartGroup.selectAll("circle")
-    .data(xdata)
+    .data(Data)
     .enter()
     .append("circle")
     .attr("cx", d => xLinearScale(d[chosenXAxis]))
