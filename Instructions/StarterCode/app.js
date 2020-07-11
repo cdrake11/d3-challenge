@@ -25,10 +25,11 @@ var svg = d3
 var chartGroup = svg.append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-// Read in data file using D3
+// Read in data file using D3(version 5 version 4 does not use .then)
 d3.csv("data.csv").then(function (chartData) {
     console.log(chartData)
-    // Parse Data as numbers
+    
+    // Parse Data 
     chartData.forEach(function (data) {
         data.age = +data.age;
         data.smokes = +data.smokes;
